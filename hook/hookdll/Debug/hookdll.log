@@ -1,0 +1,18 @@
+﻿Build started 2019/3/12 16:19:53.
+     1>Project "D:\learn\own_code\11712hook\hook\hookdll\hookdll.vcxproj" on node 3 (Rebuild target(s)).
+     1>ClCompile:
+         D:\code\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USRDLL /D HOOKDLL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt hookdll.cpp socket_usr.cpp
+         socket_usr.cpp
+         hookdll.cpp
+     1>d:\learn\own_code\11712hook\hook\hookdll\hookdll.cpp(88): warning C4101: 'overlapped' : unreferenced local variable
+         Generating Code...
+       Link:
+         D:\code\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\learn\own_code\11712hook\hook\Debug\hookdll.dll" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /DEF:"export.def" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\learn\own_code\11712hook\hook\Debug\hookdll.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\learn\own_code\11712hook\hook\Debug\hookdll.lib" /MACHINE:X86 /DLL Debug\hookdll.obj
+         Debug\socket_usr.obj
+            Creating library D:\learn\own_code\11712hook\hook\Debug\hookdll.lib and object D:\learn\own_code\11712hook\hook\Debug\hookdll.exp
+         hookdll.vcxproj -> D:\learn\own_code\11712hook\hook\Debug\hookdll.dll
+     1>Done Building Project "D:\learn\own_code\11712hook\hook\hookdll\hookdll.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.85
