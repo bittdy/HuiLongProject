@@ -1,21 +1,26 @@
-#include <WINSOCK2.H>   
+#include <winsock.h>
 #include <stdio.h>     
-
+#include <conio.h>
+#include<iostream>
 //定义程序中使用的常量      
-#define SERVER_ADDRESS "192.168.109.1" //服务器端IP地址      
+//#define SERVER_ADDRESS "192.168.109.1" //服务器端IP地址      
 #define PORT           5150         //服务器的端口号      
 #define MSGSIZE        1024         //收发缓冲区的大小      
 #pragma comment(lib, "ws2_32.lib")      
+#define _WINSOCK_DEPRECATED_NO_WARNINGS 
 
 int main()
 {
+	std::cout << "Please enter the IP address of target server:" << std::endl;
+	char server_address[20];
+	std::cin.getline(server_address, 20);
 	WSADATA wsaData;
 	//连接所用套节字      
 	SOCKET sClient;
 	//保存远程服务器的地址信息      
 	SOCKADDR_IN server;
 	//收发缓冲区      
-	char szMessage[MSGSIZE];
+	char szMessage;
 	//成功接收字节的个数      
 	int ret;
 
@@ -29,7 +34,7 @@ int main()
 	memset(&server, 0, sizeof(SOCKADDR_IN)); //先将保存地址的server置为全0      
 	server.sin_family = PF_INET; //声明地址格式是TCP/IP地址格式      
 	server.sin_port = htons(PORT); //指明连接服务器的端口号，htons()用于 converts values between the host and network byte order      
-	server.sin_addr.s_addr = inet_addr(SERVER_ADDRESS); //指明连接服务器的IP地址      
+	server.sin_addr.s_addr = inet_addr(server_address); //指明连接服务器的IP地址      
 	//结构SOCKADDR_IN的sin_addr字段用于保存IP地址，sin_addr字段也是一个结构体，sin_addr.s_addr用于最终保存IP地址      
 	//inet_addr()用于将 形如的"127.0.0.1"字符串转换为IP地址格式      
 	//连到刚才指明的服务器上      
@@ -38,9 +43,10 @@ int main()
 	while (TRUE) {
 		printf("Send:");
 		//从键盘输入      
-		gets(szMessage); //The gets() functionreads characters from stdin and loads them into szMessage      
+		szMessage=_getch(); //The gets() functionreads characters from stdin and loads them into szMessage
+		std::cout << szMessage << std::endl;
 		// 发送数据      
-		send(sClient, szMessage, strlen(szMessage), 0); //sClient指明用哪个连接发送； szMessage指明待发送数据的保存地址 ；strlen(szMessage)指明数据长度      
+		send(sClient, &szMessage, 1, 0); //sClient指明用哪个连接发送； szMessage指明待发送数据的保存地址 ；strlen(szMessage)指明数据长度      
 	}
 
 	// 释放连接和进行结束工作      
