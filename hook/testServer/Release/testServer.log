@@ -1,0 +1,18 @@
+﻿Build started 2019/3/13 18:26:51.
+     1>Project "D:\learn\own_code\11712hook\hook\testServer\testServer.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\code\vs2013\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt server.cpp
+         server.cpp
+     1>server.cpp(226): warning C4244: '=' : conversion from 'unsigned long' to 'short', possible loss of data
+     1>server.cpp(227): warning C4244: '=' : conversion from 'unsigned long' to 'unsigned char', possible loss of data
+     1>server.cpp(228): warning C4244: '=' : conversion from 'unsigned long' to 'unsigned char', possible loss of data
+       Link:
+         D:\code\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\learn\own_code\11712hook\hook\Release\testServer.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\learn\own_code\11712hook\hook\Release\testServer.pdb" /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\learn\own_code\11712hook\hook\Release\testServer.lib" /MACHINE:X86 /SAFESEH Release\server.obj
+         Generating code
+         Finished generating code
+         testServer.vcxproj -> D:\learn\own_code\11712hook\hook\Release\testServer.exe
+     1>Done Building Project "D:\learn\own_code\11712hook\hook\testServer\testServer.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.17
