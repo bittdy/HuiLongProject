@@ -10,6 +10,7 @@
 #include "windows.h"
 #include "winBase.h"
 #include "stdio.h"
+#include <string>
 
 //#define  _CRT_SECURE_NO_WARNINGS
 
@@ -72,8 +73,8 @@ BOOL Open_Port()
 	//Get the default port setting information.
 	GetCommState(Rs_Port, &PortDCB);
 
-	//set BaudRate = 115200,no parity,one stopbit
-	PortDCB.BaudRate = CBR_115200;//CBR_115200;
+	//set BaudRate = 9600,no parity,one stopbit
+	PortDCB.BaudRate = CBR_9600;//CBR_9600;
 	PortDCB.ByteSize = 8;
 	PortDCB.Parity = NOPARITY;
 	PortDCB.StopBits = ONESTOPBIT;
@@ -159,77 +160,203 @@ int main()
 		ntohs(client.sin_port));
 	DWORD TxNum = 0;
 	if (!Open_Port()) std::cout<<"error!"<<std::endl;					//Open Serial port
-	unsigned char msg[10] = { 0 };
+	unsigned char msg[8] = { 0 };
 	unsigned long temp = 0;
 	short int crc;
 	msg[0] = 0x01; //设备主机地址
-	msg[1] = 0x0f; //功能码
-	msg[2] = 0x00; //起始码
+	msg[1] = 0x05; 
+	msg[2] = 0x00; 
 	msg[3] = 0x00;
-	msg[4] = 0x00; //输出数量，设为8个
-	msg[5] = 0x08;
-	msg[6] = 0x01; //字节计数
+	msg[4] = 0xff; 
+	msg[5] = 0x00;
 
+	int keyNum[8] = { 0 };
+	unsigned char killmsg[10] = { 0x01, 0x0f, 0x00, 0x00, 0x00, 0x08, 0x01, 0x00, 0xfe, 0x95};
 	while (TRUE) {
 		ret = recv(sClient, &szMessage, MSGSIZE, 0);
 		printf("Received [%d bytes]: ", ret);
 		std::cout << szMessage << std::endl;
-		msg[7] = 0x00; //初始设为关闭
 		//char keyVal[5] = "0x00";
+		DWORD dwwrittenLen = 0;
 		switch (szMessage)
 		{
 		case 'a':
-			msg[7] = 0x01; 
+			keyNum[0]++;
+			if (keyNum[0] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[3] = 0x00; //开第一路
+				msg[4] = 0xff;
+				msg[6] = 0x8c;
+				msg[7] = 0x3a;
+			}
+			else
+			{
+				msg[3] = 0x00; //关第一路
+				msg[4] = 0x00;
+				msg[6] = 0xcd;
+				msg[7] = 0xca;
+			}
+			
+			if (keyNum[0] >= 5000)  keyNum[0] = 0;
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 's':
-			msg[7] = 0x02;
+			keyNum[1]++;
+			if (keyNum[1] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x01; //开第二路
+				msg[6] = 0xdd;
+				msg[7] = 0xfa;
+			}
+			else
+			{
+				msg[3] = 0x01; //关第二路
+				msg[4] = 0x00;
+				msg[6] = 0x9c;
+				msg[7] = 0x0a;
+			}
+			
+			if (keyNum[1] >= 5000)  keyNum[1] = 0;
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'd':
-			msg[7] = 0x04;
+			keyNum[2]++;
+			if (keyNum[2] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x02; //开第三路
+				msg[6] = 0x2d;
+				msg[7] = 0xfa;
+			}
+			else
+			{
+				msg[3] = 0x02; //关第三路
+				msg[4] = 0x00;
+				msg[6] = 0x6c;
+				msg[7] = 0x0a;
+			}
+			
+			if (keyNum[2] >= 5000)  keyNum[2] = 0;
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'f':
-			msg[7] = 0x08;
+			keyNum[3]++;
+			if (keyNum[3] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x03; //开第四路
+				msg[6] = 0x7c;
+				msg[7] = 0x3a;
+			}
+			else
+			{
+				msg[3] = 0x03; //关第四路
+				msg[4] = 0x00;
+				msg[6] = 0x3d;
+				msg[7] = 0xca;
+			}
+
+			if (keyNum[3] >= 5000)  keyNum[3] = 0;
+
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'g':
-			msg[7] = 0x10;
+			keyNum[4]++;
+			if (keyNum[4] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x04; //开第五路
+				msg[6] = 0xcd;
+				msg[7] = 0xfb;
+			}
+			else
+			{
+				msg[3] = 0x04; //关第五路
+				msg[4] = 0x00;
+				msg[6] = 0x8c;
+				msg[7] = 0x0b;
+			}
+
+			if (keyNum[4] >= 5000)  keyNum[4] = 0;
+
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'h':
-			msg[7] = 0x20;
+			keyNum[5]++;
+			if (keyNum[5] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x05; //开第六路
+				msg[6] = 0x9c;
+				msg[7] = 0x3b;
+			}
+			else
+			{
+				msg[3] = 0x05; //关第六路
+				msg[4] = 0x00;
+				msg[6] = 0xdd;
+				msg[7] = 0xcb;
+			}
+
+			if (keyNum[5] >= 5000)  keyNum[5] = 0;
+
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'j':
-			msg[7] = 0x40;
+			keyNum[6]++;
+			if (keyNum[6] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x06; //开第七路
+				msg[6] = 0x6c;
+				msg[7] = 0x3b;
+			}
+			else
+			{
+				msg[3] = 0x06; //关第七路
+				msg[4] = 0x00;
+				msg[6] = 0x2d;
+				msg[7] = 0xcb;
+			}
+
+			if (keyNum[6] >= 5000)  keyNum[6] = 0;
+
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'k':
-			msg[7] = 0x80;
+			keyNum[7]++;
+			if (keyNum[7] % 2 == 1) //奇数次按下,打开该路
+			{
+				msg[4] = 0xff;
+				msg[3] = 0x07; //开第八路
+				msg[6] = 0x3d;
+				msg[7] = 0xfb;
+			}
+			else
+			{
+				msg[3] = 0x07; //关第7路
+				msg[4] = 0x00;
+				msg[6] = 0x7c;
+				msg[7] = 0x0b;
+			}
+
+			if (keyNum[7] >= 5000)  keyNum[7] = 0;
+
+			WriteFile(Rs_Port, msg, 8, &dwwrittenLen, NULL); // Send data via Rs-232
 			break;
 		case 'l':
-			msg[7] = 0x00;
+			WriteFile(Rs_Port, killmsg, 10, &dwwrittenLen, NULL); // Send data via Rs-232			
+			memset(keyNum, 0, sizeof(keyNum));
 			break;
 		default:
-			msg[7] = 0x00;
+			WriteFile(Rs_Port, killmsg, 10, &dwwrittenLen, NULL); // Send data via Rs-232
+			memset(keyNum, 0, sizeof(keyNum));
 			break;
 		}
 
-		//计算CRC
-		char result_len = 8;
-		unsigned char *ptr = msg;
-		while (result_len--){
-			for (int i = 0x80; i != 0; i = i >> 1){
-				temp = temp * 2;
-				if ((temp & 0x10000) != 0)
-					temp = temp ^ 0x11021;
-				if ((*ptr & i) != 0)
-					temp = temp ^ (0x10000 ^ 0x11021);
-			}
-			ptr++;
-		}
-		crc = temp;
-		msg[8] = temp/10000;
-		msg[9] = temp%10000;
+		
 
-		//TxNum = strlen(msg);
-		DWORD dwwrittenLen = 0;
-		WriteFile(Rs_Port, msg, 10, &dwwrittenLen, NULL); // Send data via Rs-232
 	}
 	return 0;
 }
