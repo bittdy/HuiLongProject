@@ -1,0 +1,13 @@
+﻿Build started 2019/3/14 17:39:30.
+     1>Project "D:\learn\own_code\11712hook\hook\CRC16\CRC16\CRC16.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         D:\code\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CRC16.cpp
+         CRC16.cpp
+       Link:
+         D:\code\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\learn\own_code\11712hook\hook\CRC16\Debug\CRC16.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\learn\own_code\11712hook\hook\CRC16\Debug\CRC16.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\learn\own_code\11712hook\hook\CRC16\Debug\CRC16.lib" /MACHINE:X86 Debug\CRC16.obj
+         CRC16.vcxproj -> D:\learn\own_code\11712hook\hook\CRC16\Debug\CRC16.exe
+     1>Done Building Project "D:\learn\own_code\11712hook\hook\CRC16\CRC16\CRC16.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.84
